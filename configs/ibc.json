@@ -1,5 +1,5 @@
 {
-    "secret_channel_id": "channel-59",
-    "consumer_channel_id": "channel-530",
-    "ibc_denom": "ibc/140C3EA0919BF013B7DFFEEA807248D45C06755289D099096652397871834B2D"
+    "secret_channel_id": "channel-3",
+    "consumer_channel_id": "channel-311",
+    "ibc_denom": "ibc/646433b85336ac9ba9171ec08ec4470d93c149b3354a4a5bf687eb09dfd9e751"
 }

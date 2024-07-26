@@ -5,15 +5,14 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "outDir": "dist",
 
-    "types": ["node", "vite/client"],
+    "types": ["node"],
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
 
     /* Linting */
     "strict": true,
@@ -21,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["e2e", "src/config.ts", "src/env.ts", "src/utils.ts", "src/clients.ts", "src/ibc.ts", "src/contracts.ts", "tests"]
+ "include": ["src/**/*"],
 }

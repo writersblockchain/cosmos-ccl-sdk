@@ -1,17 +1,21 @@
 {
-  "name": "tests",
-  "private": true,
-  "version": "0.0.0",
+  "name": "cosmos-ccl-sdk",
+  "version": "1.0.0",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "vitest --run --testTimeout 60000"
+"build": "tsc"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
+    "@types/node": "^20.14.12",
+    "typescript": "^5.5.4",
     "@cosmjs/amino": "^0.32.3",
     "@cosmjs/cosmwasm-stargate": "^0.32.3",
-    "@solar-republic/contractor": "^0.8.17",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "@solar-republic/contractor": "^0.8.17"
   },
   "dependencies": {
     "@cosmjs/crypto": "^0.32.3",
@@ -20,7 +24,6 @@
     "@solar-republic/neutrino": "^1.4.5",
     "cosmjs-types": "^0.9.0",
     "dotenv": "^16.4.5",
-    "secretjs": "^1.12.5",
-    "vitest": "^1.6.0"
+    "secretjs": "^1.12.5"
   }
 }

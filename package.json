@@ -4,18 +4,21 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-"build": "tsc"
+    "build": "tsc && tsc-esm-fix --target=dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^20.14.12",
-    "typescript": "^5.5.4",
     "@cosmjs/amino": "^0.32.3",
     "@cosmjs/cosmwasm-stargate": "^0.32.3",
-    "@solar-republic/contractor": "^0.8.17"
+    "@solar-republic/contractor": "^0.8.17",
+    "@types/node": "^20.14.13",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsc-esm-fix": "^3.0.1",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "@cosmjs/crypto": "^0.32.3",

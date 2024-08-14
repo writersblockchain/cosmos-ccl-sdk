@@ -1,5 +1,5 @@
 import { getGatewayEncryptionKey, queryGatewayAuth } from './gateway';
-import { consumerClient, consumerWallet } from './clients';
+import { getConsumerClient, getConsumerWallet } from './clients';
 import { getArb36Credential } from './crypto';
 import { gatewayChachaHookMemo, gatewayHookMemo, sendIBCToken } from './ibc';
 import { loadContractConfig, loadIbcConfig } from './config';
@@ -11,59 +11,65 @@ let CONSUMER_TOKEN = process.env.CONSUMER_TOKEN;
 const interactWithGatewayContract = async () => {
     const gatewayKey = await getGatewayEncryptionKey();
 
-    const consumerQCFirst = await getArb36Credential(consumerWallet, "foo");
-    const consumerQCSecond = await getArb36Credential(consumerWallet, "bar");
+    const signingWallet = await getConsumerWallet();
+    const signingClient = await getConsumerClient(signingWallet);
+    const signerAddress = (await signingWallet.getAccounts())[0].address;
+    const consumerQCFirst = await getArb36Credential(signingWallet!, "foo")
+    const consumerQCSecond = await getArb36Credential(signingWallet!, "bar")
 
     const ibcConfig = loadIbcConfig();
     const secretGateway = loadContractConfig().gateway!;
 
-    // Send a non-authenticated & non-encrypted message
-    const newTextSimple = "new_text_" + Math.random().toString(36).substring(7);
+    const new_text = "new_text_" + Math.random().toString(36).substring(7);
+
     const responseSimple = await sendIBCToken(
-        consumerClient,
+        signingClient,
+        signerAddress,
         secretGateway.address,
         CONSUMER_TOKEN!,
         "1",
         ibcConfig.consumer_channel_id,
         gatewayHookMemo(
-            { extension: { msg: { store_secret: { text: newTextSimple } } } },
+            { extension: { msg: { store_secret: { text: new_text } } }},
             secretGateway
         )
-    );
+    )
 
     console.log("Simple IBC Hook Response:", responseSimple);
 
-    const nonUpdatedText = (await queryGatewayAuth(
+    const non_updated_text = (await queryGatewayAuth(
         { get_secret: {} },
         [consumerQCFirst]
     )) as string;
     
-    console.log("Non-Updated Text:", nonUpdatedText);
+    console.log("Non-Updated Text:", non_updated_text);
 
     // Send an authenticated & encrypted message
-    const newTextEncrypted = "new_text_" + Math.random().toString(36).substring(7);
-    const responseEncrypted = await sendIBCToken(
-        consumerClient,
-        secretGateway.address,
-        CONSUMER_TOKEN!,
-        "1",
-        ibcConfig.consumer_channel_id,
-        await gatewayChachaHookMemo(
-            consumerWallet,
-            { extension: { msg: { store_secret: { text: newTextEncrypted } } } },
-            secretGateway,
-            gatewayKey
-        )
+    const new_new_text = "new_text_" + Math.random().toString(36).substring(7);
+
+            const responseEncrypted = await sendIBCToken(
+                signingClient,
+                signerAddress,
+                secretGateway.address,
+                CONSUMER_TOKEN!,
+                "1",
+                ibcConfig.consumer_channel_id,
+                await gatewayChachaHookMemo(
+                    signingWallet!,
+                    { extension: { msg: { store_secret: { text: new_new_text } } } },
+                    secretGateway,
+                    gatewayKey
+                )
     );
 
     console.log("Encrypted IBC Hook Response:", responseEncrypted);
 
-    const updatedText = (await queryGatewayAuth(
+    const updated_text = (await queryGatewayAuth(
         { get_secret: {} },
         [consumerQCSecond]
     )) as string;
     
-    console.log("Updated Text:", updatedText);
+    console.log("Updated Text:", updated_text);
 };
 
 interactWithGatewayContract().catch(error => {

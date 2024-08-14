@@ -8,8 +8,8 @@ const wallet = new Wallet(process.env.SECRET_MNEMONIC as string);
 const contract_wasm = fs.readFileSync("./target/wasm32-unknown-unknown/release/gateway_simple.wasm");
 
 const secretjs = new SecretNetworkClient({
-  chainId: "pulsar-3",
-  url: "https://lcd.testnet.secretsaturn.net",
+  chainId: "secret-4",
+  url: "https://lcd.mainnet.secretsaturn.net",
   wallet: wallet,
   walletAddress: wallet.address,
 });

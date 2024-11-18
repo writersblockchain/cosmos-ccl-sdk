@@ -5,11 +5,11 @@ dotenv.config();
 
 const wallet = new Wallet(process.env.SECRET_MNEMONIC as string);
 
-const contract_wasm = fs.readFileSync("./target/wasm32-unknown-unknown/release/gateway_simple.wasm");
+const contract_wasm = fs.readFileSync("./optimized-wasm/gateway_simple.wasm.gz");
 
 const secretjs = new SecretNetworkClient({
   chainId: "secret-4",
-  url: "https://lcd.mainnet.secretsaturn.net",
+  url: "https://rest.lavenderfive.com:443/secretnetwork",
   wallet: wallet,
   walletAddress: wallet.address,
 });
